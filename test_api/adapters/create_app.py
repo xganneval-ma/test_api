@@ -1,26 +1,25 @@
 from fastapi import FastAPI
 import datetime
 import asyncio
-from logging import getLogger
+import logging
 from .firstnames import FIRSTNAMES
 from random import randrange, choice
 from pydantic import BaseModel
+from fastapi_utils.timing import add_timing_middleware
 
 START_DATE = datetime.datetime(1900, 1, 1, 0, 0, 0, 0)
 END_DATE = datetime.datetime.now()
 
 GENDER = ["male", "female", "other"]
-
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+app = FastAPI()
+add_timing_middleware(app, record=logger.info, prefix="app", exclude="untimed")
 
 class Person(BaseModel):
     first_name: str
     birthdate: datetime.datetime
     gender: str
-
-
-app = FastAPI()
-
-logger = getLogger(__name__)
 
 
 def make_wait(func):
