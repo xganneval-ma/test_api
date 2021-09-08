@@ -4,7 +4,6 @@ import asyncio
 from logging import getLogger
 from .firstnames import FIRSTNAMES
 from random import randrange, choice
-from datetime import timedelta
 from pydantic import BaseModel
 
 START_DATE = datetime.datetime(1900, 1, 1, 0, 0, 0, 0)
@@ -36,11 +35,11 @@ def make_wait(func):
     return _make_wait
 
 
-def random_date(start, end):
+def random_date(start: datetime.datetime, end: datetime.datetime):
     delta = end - start
     int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
     random_second = randrange(int_delta)
-    return start + timedelta(seconds=random_second)
+    return start + datetime.timedelta(seconds=random_second)
 
 
 @app.get("/firstname")
