@@ -24,6 +24,18 @@ app = FastAPI()
 logger = getLogger(__name__)
 
 
+def make_wait(func):
+    async def _make_wait(count: int = 0, waiting_time: int = 0):
+        start_time = datetime.datetime.now()
+        result = await func(count=count)
+        end_time = datetime.datetime.now()
+        process_time = (end_time - start_time)
+        to_wait = datetime.timedelta(milliseconds=waiting_time) - process_time
+        await asyncio.sleep(to_wait.total_seconds())
+        return result
+    return _make_wait
+
+
 def random_date(start, end):
     delta = end - start
     int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
@@ -33,17 +45,12 @@ def random_date(start, end):
 
 @app.get("/firstname")
 @app.get("/test")
-async def data(count: int = 0, waiting_time: int = 0):
-    start_time = datetime.datetime.now()
-    result = [
+@make_wait
+async def data(count: int = 0):
+    return [
         Person(
             first_name=choice(FIRSTNAMES),
             birthdate=random_date(START_DATE, END_DATE),
             gender=choice(GENDER))
-        for i in range(count)
+        for _ in range(count)
     ]
-    end_time = datetime.datetime.now()
-    process_time = (end_time - start_time)
-    to_wait = datetime.timedelta(milliseconds=waiting_time) - process_time
-    await asyncio.sleep(to_wait.total_seconds())
-    return result
