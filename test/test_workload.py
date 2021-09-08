@@ -11,11 +11,14 @@ SENARIOS = [
 
 URL = "http://localhost:9518/firstname?waiting_time=%s&count=%s"
 CONCURENCY = 100
+
+
 async def get_data(waiting_time: int, count: int):
     async with aiohttp.ClientSession() as session:
         print(URL % (waiting_time, count))
         async with session.get(URL % (waiting_time, count)) as resp:
             return await resp.json()
+
 
 async def execute_senarios():
     start_time = datetime.datetime.now()

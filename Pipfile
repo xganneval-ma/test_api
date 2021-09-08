@@ -9,6 +9,7 @@ uvicorn = "*"
 aiohttp = "*"
 
 [dev-packages]
+black = "*"
 
 [requires]
 python_version = "3.6"

@@ -3,14 +3,15 @@ import datetime
 import asyncio
 from logging import getLogger
 from .firstnames import FIRSTNAMES
-from random import randint, randrange, choice
+from random import randrange, choice
 from datetime import timedelta
 from pydantic import BaseModel
 
-START_DATE = datetime.datetime(1900, 1, 1 , 0, 0, 0, 0)
+START_DATE = datetime.datetime(1900, 1, 1, 0, 0, 0, 0)
 END_DATE = datetime.datetime.now()
 
 GENDER = ["male", "female", "other"]
+
 
 class Person(BaseModel):
     first_name: str
@@ -32,7 +33,7 @@ def random_date(start, end):
 
 @app.get("/firstname")
 @app.get("/test")
-async def data(count: int=0, waiting_time: int=0):
+async def data(count: int = 0, waiting_time: int = 0):
     start_time = datetime.datetime.now()
     result = [
         Person(
