@@ -1,0 +1,11 @@
+version: '3.4'
+services:
+  app:
+    container_name: test_api
+    build:
+      context: .
+    volumes:
+      - .:/home/test_api
+    command: uvicorn test_api.adapters.create_app:app --host 0.0.0.0 --port 9518
+    ports:
+      - "9518:9518"
