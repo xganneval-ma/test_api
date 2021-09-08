@@ -4,12 +4,11 @@ import datetime
 
 SENARIOS = [
     [[100, 100]] * 5,
-    [[80, 50 ]] * 100,
-    [[50, 70 ]] * 100,
+    [[80, 50]] * 100,
+    [[50, 70]] * 100,
 ]
 
 URL = "http://localhost:9518/firstname?waiting_time=%s&count=%s"
-CONCURENCY = 100
 
 
 async def get_persons(waiting_time: int, count: int):
